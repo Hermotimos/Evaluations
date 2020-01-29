@@ -13,18 +13,9 @@ def question():
 
 
 def do_action():
-    chosen_db = choose_db()
-    chosen_action = choose_action()
-    if chosen_action == 1:
-        print(chosen_db)
-    elif chosen_action == 2:
-        print_avg_evals(chosen_db)
-    elif chosen_action == 3:
-        print_cnt_evals(chosen_db)
-    elif chosen_action == 4:
-        print_get_evals(chosen_db)
-    elif chosen_action == 5:
-        evaluate(chosen_db)
+    db = choose_db()
+    action = choose_action()
+    action(db)
 
 
 def choose_db():
@@ -52,6 +43,7 @@ def choose_db():
 
 
 def choose_action():
+    """Returns function"""
     try:
         chosen_action = int(input("What would you like to do?\n"
                                   "1 - see whole database\n"
@@ -61,12 +53,21 @@ def choose_action():
                                   "5 - add new evaluation\n"))
         options = [1, 2, 3, 4, 5]
         assert 0 < chosen_action < options[-1] + 1
-        return chosen_action
+
+        if chosen_action == 1:
+            return print
+        elif chosen_action == 2:
+            return print_avg_evals
+        elif chosen_action == 3:
+            return print_cnt_evals
+        elif chosen_action == 4:
+            return print_get_evals
+        elif chosen_action == 5:
+            return evaluate
+
     except Exception:
         print("Wrong value entered. Please choose again.\n")
         return choose_action()
-
-
 
 
 def print_avg_evals(db):
@@ -85,7 +86,7 @@ def evaluate(database):
     new_tit = ask_for_title()
     new_eval = ask_for_evaluation()
     database.insert_eval(new_tit, new_eval)
-    print("Your evaluation: '{}': {} \nYour evaluation is much appreciated.".format(new_tit, new_eval))
+    print("You entered following evaluation: '{}': {} \nYour evaluation is much appreciated.".format(new_tit, new_eval))
 
 
 def ask_for_title():
@@ -94,7 +95,7 @@ def ask_for_title():
         assert len(new_title) > 0
         return new_title
     except AssertionError:
-        print("You have not given any title. Try again.\n".format(new_title))
+        print("You haven't given any title. Try again.\n")
         return ask_for_title()
 
 
