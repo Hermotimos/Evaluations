@@ -30,7 +30,9 @@ class Database:
         return self.db_dict
 
     def insert_eval(self, title, evaluation):
-        """Reopen file in append mode to move cursor to end of file, reopen in read mode to move cursor to beginning"""
+        """
+        Reopen file in append mode to move cursor to end of file, write, reopen in read mode to move cursor to beginning
+        """
         self.openedfile = open(file=self.sourcefile, mode='a')
         self.openedfile.write("\n\"{}\": {}".format(title, evaluation))
         self.openedfile = open(file=self.sourcefile, mode='r')
@@ -40,7 +42,7 @@ class Database:
         for k, v in self.into_dict().items():
             if k.name == title:
                 evals += "{}: {}{}".format(k.name, v, '\n')
-        return evals
+        return evals if evals else 'No evaluations found for given title.'
 
     def avg_evals(self, title):
         cnt = self.cnt_evals(title)
@@ -48,7 +50,7 @@ class Database:
         try:
             return round(s/cnt, 2)
         except ZeroDivisionError:
-            return None
+            return 'No evaluations found for given title.'
 
     def cnt_evals(self, title):
         n = (k.name for k in self.into_dict().keys() if k.name == title)
