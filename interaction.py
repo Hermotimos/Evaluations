@@ -1,6 +1,32 @@
 from dataflow import Database
 
 
+def question():
+    answ = input("\nWould you like to continue (y or n) ?\n")
+    if answ == 'y':
+        return True
+    elif answ == 'n':
+        return False
+    else:
+        print("\nWrong value entered. Please choose again.\n")
+        return question()
+
+
+def do_action():
+    chosen_db = choose_db()
+    chosen_action = choose_action()
+    if chosen_action == 1:
+        print(chosen_db)
+    elif chosen_action == 2:
+        print_avg_evals(chosen_db)
+    elif chosen_action == 3:
+        print_cnt_evals(chosen_db)
+    elif chosen_action == 4:
+        print_get_evals(chosen_db)
+    elif chosen_action == 5:
+        evaluate(chosen_db)
+
+
 def choose_db():
     """Returns instance of Database"""
 
@@ -41,19 +67,6 @@ def choose_action():
         return choose_action()
 
 
-def do_action():
-    chosen_db = choose_db()
-    chosen_action = choose_action()
-    if chosen_action == 1:
-        print(chosen_db)
-    elif chosen_action == 2:
-        print_avg_evals(chosen_db)
-    elif chosen_action == 3:
-        print_cnt_evals(chosen_db)
-    elif chosen_action == 4:
-        print_get_evals(chosen_db)
-    elif chosen_action == 5:
-        evaluate(chosen_db)
 
 
 def print_avg_evals(db):
@@ -93,14 +106,3 @@ def ask_for_evaluation():
     except Exception:
         print("Entered value ({}) outside the scope of possible options (1-10). Try again.\n".format(new_evaluation))
         return ask_for_evaluation()
-
-
-def question():
-    answ = input("\nWould you like to continue (y or n) ?\n")
-    if answ == 'y':
-        return True
-    elif answ == 'n':
-        return False
-    else:
-        print("\nWrong value entered. Please choose again.\n")
-        return question()
