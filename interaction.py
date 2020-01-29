@@ -2,7 +2,16 @@ from dataflow import Database
 
 
 def choose_db():
-    """ Returns instance of Database"""
+    """Returns instance of Database"""
+
+    def instantiate_db(db):
+        if db == 1:
+            db = Database("data_tvseries")
+            return db
+        elif db == 2:
+            db = Database("data_movies")
+            return db
+
     try:
         chosen_db = int(input("Which database would you like to browse?\n"
                               "1 - TV series database.\n"
@@ -14,15 +23,6 @@ def choose_db():
     except Exception:
         print("Wrong value entered. Please choose again.\n")
         return choose_db()
-
-
-def instantiate_db(chosen_db):
-    if chosen_db == 1:
-        db = Database("data_tvseries")
-        return db
-    elif chosen_db == 2:
-        db = Database("data_movies")
-        return db
 
 
 def choose_action():
