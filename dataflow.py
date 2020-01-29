@@ -3,6 +3,7 @@ from collections import Counter
 
 
 class Title:
+    """Class providing unique instances as dict keys in Database.__str__"""
     def __init__(self, name):
         self.name = name
 
@@ -15,11 +16,14 @@ class Database:
         self.db_dict = {}
 
     def __str__(self):
-        """ k.name - k is an instance of 'Title' class, so k.name accesses it's 'name' attr """
+        """
+        Class instances as dict keys allow storage of multiple evaluations (values) for seemingly identical keys
+        (Title instances). Class instances are unique even if self.name attribute is identical across many instances.
+        """
         return '\n'.join("{}: {}".format(k.name, v) for (k, v) in self.into_dict().items())
 
     def into_dict(self):
-        """ Transform file into dict with possibly identical titles within unique instances of 'Title' class"""
+        """ Transform file into dict with possibly uniform titles within unique instances of 'Title' class"""
         for line in self.openedfile:
             k, v = line.strip().split(': ')
             self.db_dict[Title(k.strip('""'))] = int(v.strip())
